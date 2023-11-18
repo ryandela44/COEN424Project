@@ -1,0 +1,965 @@
+openapi: 3.0.0
+info:
+  title: Smart Checkout
+  description: "In this course, we are working in groups of 4 or less members on a\
+    \ final project that runs on the Cloud. Our project is to develop a service that\
+    \ has targeted users and with specific functions. This service is accessible on\
+    \ the Internet. Its design follows RESTful architecture style that runs on a Cloud\
+    \ platform and meets the project requirements. The service interface is defined\
+    \ using SwaggerHub open APIs."
+  contact:
+    name: "Raptors Team (Amir Cherif 40047635, Yvon Wetie Mougang 40129382, Athiru\
+      \ Pathiraja 40181100, Amish Patel 40044279)"
+    url: https://github.com/ryandela44/COEN424Project
+  version: v2.0
+servers:
+- url: https://our_server_ip_adress
+paths:
+  /v2/Item:
+    get:
+      tags:
+      - Item
+      summary: List of All Items
+      operationId: v2_item_get
+      responses:
+        "200":
+          description: List of all Items in the system
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemList'
+        "404":
+          description: No Items Found
+      x-openapi-router-controller: swagger_server.controllers.item_controller
+    post:
+      tags:
+      - Item
+      summary: Add a New Item
+      operationId: v2_item_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        "201":
+          description: Item Created
+          headers:
+            Location:
+              description: Item Object created
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://our_server_ip_adress.com/v2/Item/{assignedIdValue}"
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.item_controller
+  /v2/Item/{ItemID}:
+    get:
+      tags:
+      - Item
+      summary: Search for an Item by ID
+      operationId: get_item_by_id
+      parameters:
+      - name: ItemID
+        in: path
+        description: Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Item Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        "404":
+          description: Item Not found
+      x-openapi-router-controller: swagger_server.controllers.item_controller
+    put:
+      tags:
+      - Item
+      summary: Update an Item by ID
+      operationId: v2_item_item_idput
+      parameters:
+      - name: ItemID
+        in: path
+        description: Item Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        "204":
+          description: Item Updated
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.item_controller
+    delete:
+      tags:
+      - Item
+      summary: Delete an Item by ID
+      operationId: delete_item
+      parameters:
+      - name: ItemID
+        in: path
+        description: Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Item Deleted
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.item_controller
+  /v2/Customer:
+    get:
+      tags:
+      - Customer
+      summary: List of All Customers
+      description: Get a list of customers in the system
+      operationId: list_customers
+      responses:
+        "200":
+          description: List of Customers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        "404":
+          description: No Items Found
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+    post:
+      tags:
+      - Customer
+      summary: Add a New Customer
+      description: Create a new customer
+      operationId: v2_customer_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "201":
+          description: Customer Created
+          headers:
+            Location:
+              description: Location of the created customer
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://example.com/v1/customers/{assignedIdValue}"
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+  /v2/Customer/{CustomerID}:
+    get:
+      tags:
+      - Customer
+      summary: Search for Customer By ID
+      description: Get a single **Customer** by its Id value.
+      operationId: get_customer_by_id
+      parameters:
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Found Customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+    put:
+      tags:
+      - Customer
+      summary: Update Customer by ID
+      description: Update customer by id.
+      operationId: v2_customer_customer_idput
+      parameters:
+      - name: CustomerID
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "204":
+          description: Customer Updated
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+    delete:
+      tags:
+      - Customer
+      summary: Delete Customer By ID
+      description: Delete a customer by its Id value.
+      operationId: delete_customer_v1
+      parameters:
+      - name: CustomerID
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Customer Deleted
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.customer_controller
+  /v2/Supermarket:
+    get:
+      tags:
+      - Super Market
+      summary: List of All Super Markets
+      description: Get a list of Super Market in the system
+      operationId: list_supermarket
+      responses:
+        "200":
+          description: List of Super Market
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuperMarketList'
+        "404":
+          description: No Items Found
+      x-openapi-router-controller: swagger_server.controllers.super_market_controller
+    post:
+      tags:
+      - Super Market
+      summary: Add a New Super Market
+      description: Create a new Super Market
+      operationId: v2_supermarket_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supermarket'
+        required: true
+      responses:
+        "201":
+          description: Super Market Created
+          headers:
+            Location:
+              description: Location of the created Super Market
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://example.com/v1/supermaket/{assignedIdValue}"
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.super_market_controller
+  /v2/Supermarket/{SupermarketID}:
+    get:
+      tags:
+      - Super Market
+      summary: Search for Super Market By ID
+      description: Get a single **Super Market** by its Id value.
+      operationId: get_supermarket_by_id
+      parameters:
+      - name: SupermarketID
+        in: path
+        description: Super Market ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Found Super Market
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supermarket'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.super_market_controller
+    put:
+      tags:
+      - Super Market
+      summary: Update Super Market by ID
+      description: Update Super Market by id.
+      operationId: v2_supermarket_supermarket_idput
+      parameters:
+      - name: SupermarketID
+        in: path
+        description: Super Market Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Supermarket'
+        required: true
+      responses:
+        "204":
+          description: Super Market Updated
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.super_market_controller
+    delete:
+      tags:
+      - Super Market
+      summary: Delete Super Market By ID
+      description: Delete a Super Market by its Id value.
+      operationId: delete_supermarket
+      parameters:
+      - name: SupermarketID
+        in: path
+        description: Super Market ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Super Market Deleted
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.super_market_controller
+  /v2/Customer/{CustomerID}/ScanningSession:
+    get:
+      tags:
+      - Scanning Session
+      summary: List of All Active and Inactive Sessions Per Customer.
+      description: Get a list of sessions for that customer
+      operationId: list_sessions
+      parameters:
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: List of Sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanningSessionList'
+        "404":
+          description: No Items Found
+      x-openapi-router-controller: swagger_server.controllers.scanning_session_controller
+    post:
+      tags:
+      - Scanning Session
+      summary: Add a New Session for a Customer
+      description: Scanned Items
+      operationId: v2_customer_customer_id_scanning_session_post
+      parameters:
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScanningSessionList'
+        required: false
+      responses:
+        "201":
+          description: Scanning Session Created
+          headers:
+            Location:
+              description: Reference to created Scanning Session
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+        "400":
+          description: Bad Reqeust
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.scanning_session_controller
+  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}:
+    get:
+      tags:
+      - Scanning Session
+      summary: Search By SessionID & CustomerID
+      description: Get a single **Scanning Session** by its Id value.
+      operationId: get_session_by_id
+      parameters:
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Found Session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScanningSession'
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.scanning_session_controller
+    put:
+      tags:
+      - Scanning Session
+      summary: Update By SessionID & CustomerID
+      description: Update Scanning Session by id.
+      operationId: v2_customer_customer_id_scanning_session_session_idput
+      parameters:
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScanningSession'
+        required: true
+      responses:
+        "204":
+          description: Session Updated
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.scanning_session_controller
+    delete:
+      tags:
+      - Scanning Session
+      summary: Delete By SessionID & CustomerID
+      description: Delete a Session by its Id value.
+      operationId: delete_session
+      parameters:
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Session Deleted
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.scanning_session_controller
+  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem:
+    get:
+      tags:
+      - Scanned Item
+      summary: List of All the Scanned Items
+      operationId: v2_customer_customer_id_scanning_session_session_id_scanned_item_get
+      parameters:
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: List of all the Scanned Items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScannedItemList'
+        "404":
+          description: No Items Found
+      x-openapi-router-controller: swagger_server.controllers.scanned_item_controller
+    post:
+      tags:
+      - Scanned Item
+      summary: Add a New Scanned Item
+      operationId: v2_customer_customer_id_scanning_session_session_id_scanned_item_post
+      parameters:
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScannedItem'
+        required: true
+      responses:
+        "201":
+          description: Scanned Item Added
+          headers:
+            Location:
+              description: Scanned Item Object created
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://our_server_ip_adress.com/v2/ScannedItem/{assignedIdValue}"
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.scanned_item_controller
+  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/{ScannedItemID}:
+    get:
+      tags:
+      - Scanned Item
+      summary: Search for a Scanned Item by ID
+      operationId: get_scanned_item_by_id
+      parameters:
+      - name: ScannedItemID
+        in: path
+        description: Scanned Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Scanned Item Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScannedItem'
+        "404":
+          description: Scanned Item Not found
+      x-openapi-router-controller: swagger_server.controllers.scanned_item_controller
+    put:
+      tags:
+      - Scanned Item
+      summary: Update a Scanned Item by ID
+      operationId: v2_customer_customer_id_scanning_session_session_id_scanned_item_scanned_item_idput
+      parameters:
+      - name: ScannedItemID
+        in: path
+        description: Scanned Item Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScannedItem'
+        required: true
+      responses:
+        "204":
+          description: Scanned Item Updated
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-openapi-router-controller: swagger_server.controllers.scanned_item_controller
+    delete:
+      tags:
+      - Scanned Item
+      summary: Delete a Scanned Item by ID
+      operationId: delete_scanned_item
+      parameters:
+      - name: ScannedItemID
+        in: path
+        description: Scanned Item ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: SessionID
+        in: path
+        description: Session ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: CustomerID
+        in: path
+        description: Customer ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Scanned Item Deleted
+        "404":
+          description: Not found
+      x-openapi-router-controller: swagger_server.controllers.scanned_item_controller
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        ItemID:
+          type: string
+          format: uuid
+          readOnly: true
+        ProductName:
+          type: string
+          example: Avocado
+        UnitPrice:
+          minimum: 0.1
+          type: number
+          format: float
+          example: 1.75
+      description: Item Object
+      example:
+        UnitPrice: 1.75
+        ProductName: Avocado
+        ItemID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+    ItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Item'
+    ScannedItem:
+      type: object
+      properties:
+        ScannedItemID:
+          type: string
+          format: uuid
+          readOnly: true
+        ItemID:
+          type: string
+          format: uuid
+          readOnly: true
+        Quantity:
+          maximum: 999
+          minimum: 1
+          type: integer
+          format: int32
+          example: 7
+        Price:
+          minimum: 0.1
+          type: number
+          format: float
+          example: 1.75
+      example:
+        Price: 1.75
+        Quantity: 7
+        ScannedItemID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        ItemID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+    ScannedItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ScannedItem'
+    Customer:
+      type: object
+      properties:
+        CustomerID:
+          type: string
+          format: uuid
+          readOnly: true
+        FirstName:
+          maxLength: 100
+          minLength: 2
+          type: string
+          example: Amir
+        LastName:
+          maxLength: 100
+          minLength: 2
+          type: string
+          example: Cherif
+        PhoneNumber:
+          maxLength: 20
+          minLength: 10
+          type: string
+          example: +1 (514) 524-8276
+        Email:
+          maxLength: 20
+          minLength: 10
+          type: string
+          example: amir.cherif@concordia.ca
+      description: customer object
+      example:
+        Email: amir.cherif@concordia.ca
+        FirstName: Amir
+        PhoneNumber: +1 (514) 524-8276
+        CustomerID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        LastName: Cherif
+    CustomerList:
+      maxItems: 100
+      minItems: 1
+      type: array
+      description: List of Customers
+      items:
+        $ref: '#/components/schemas/Customer'
+    ScanningSession:
+      type: object
+      properties:
+        SessionID:
+          type: string
+          format: uuid
+          readOnly: true
+        SuperMarketID:
+          type: string
+          format: uuid
+          readOnly: true
+        Status:
+          type: string
+          example: Inactive
+        DateTime:
+          type: string
+          example: 15-nov-23 10:30:00
+        ScannedItemID:
+          type: string
+          format: uuid
+          readOnly: true
+      example:
+        Status: Inactive
+        ScannedItemID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        SessionID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        SuperMarketID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        DateTime: 15-nov-23 10:30:00
+    ScanningSessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ScanningSession'
+    Supermarket:
+      type: object
+      properties:
+        SupermarketID:
+          type: string
+          format: uuid
+          readOnly: true
+        Name:
+          type: string
+          example: Maxi Granby St-Jacques
+        Location:
+          $ref: '#/components/schemas/Supermarket_Location'
+      example:
+        SupermarketID: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        Name: Maxi Granby St-Jacques
+        Location:
+          zipCode: H3G 1M8
+          province: QC
+          city: Montreal
+          line1: 1455 De Maisonneuve Blvd. W
+    SuperMarketList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Supermarket'
+    Supermarket_Location:
+      type: object
+      properties:
+        line1:
+          type: string
+          example: 1455 De Maisonneuve Blvd. W
+        city:
+          type: string
+          example: Montreal
+        province:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: 2 Letter province Code
+          example: QC
+          enum:
+          - AB
+          - BC
+          - MB
+          - NB
+          - NL
+          - NS
+          - NT
+          - NU
+          - "ON"
+          - PE
+          - QC
+          - SK
+          - YT
+        zipCode:
+          maxLength: 7
+          minLength: 7
+          type: string
+          example: H3G 1M8
+      example:
+        zipCode: H3G 1M8
+        province: QC
+        city: Montreal
+        line1: 1455 De Maisonneuve Blvd. W
+
