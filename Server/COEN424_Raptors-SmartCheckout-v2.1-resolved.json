@@ -7,7 +7,7 @@
       "name": "Raptors Team (Amir Cherif 40047635, Yvon Wetie Mougang 40129382, Athiru Pathiraja 40181100, Amish Patel 40044279)",
       "url": "https://github.com/ryandela44/COEN424Project"
     },
-    "version": "v2.0"
+    "version": "v2.1"
   },
   "servers": [
     {
@@ -21,6 +21,7 @@
           "Item"
         ],
         "summary": "List of All Items",
+        "operationId": "get_items",
         "responses": {
           "200": {
             "description": "List of all Items in the system",
@@ -42,6 +43,7 @@
           "Item"
         ],
         "summary": "Add a New Item",
+        "operationId": "add_item",
         "requestBody": {
           "content": {
             "application/json": {
@@ -83,7 +85,7 @@
           "Item"
         ],
         "summary": "Search for an Item by ID",
-        "operationId": "getItemByID",
+        "operationId": "get-item-by-id",
         "parameters": [
           {
             "name": "ItemID",
@@ -119,6 +121,7 @@
           "Item"
         ],
         "summary": "Update an Item by ID",
+        "operationId": "update_item",
         "parameters": [
           {
             "name": "ItemID",
@@ -160,7 +163,7 @@
           "Item"
         ],
         "summary": "Delete an Item by ID",
-        "operationId": "deleteItem",
+        "operationId": "delete_item",
         "parameters": [
           {
             "name": "ItemID",
@@ -192,7 +195,7 @@
         ],
         "summary": "List of All Customers",
         "description": "Get a list of customers in the system",
-        "operationId": "listCustomers",
+        "operationId": "list_customers",
         "responses": {
           "200": {
             "description": "List of Customers",
@@ -215,6 +218,7 @@
         ],
         "summary": "Add a New Customer",
         "description": "Create a new customer",
+        "operationId": "add_customer",
         "requestBody": {
           "content": {
             "application/json": {
@@ -257,7 +261,7 @@
         ],
         "summary": "Search for Customer By ID",
         "description": "Get a single **Customer** by its Id value.",
-        "operationId": "getCustomerById",
+        "operationId": "get_customer_by_id",
         "parameters": [
           {
             "name": "CustomerID",
@@ -294,6 +298,7 @@
         ],
         "summary": "Update Customer by ID",
         "description": "Update customer by id.",
+        "operationId": "update_customer",
         "parameters": [
           {
             "name": "CustomerID",
@@ -336,7 +341,7 @@
         ],
         "summary": "Delete Customer By ID",
         "description": "Delete a customer by its Id value.",
-        "operationId": "deleteCustomerV1",
+        "operationId": "delete_customer",
         "parameters": [
           {
             "name": "CustomerID",
@@ -368,7 +373,7 @@
         ],
         "summary": "List of All Super Markets",
         "description": "Get a list of Super Market in the system",
-        "operationId": "listSupermarket",
+        "operationId": "list_supermarkets",
         "responses": {
           "200": {
             "description": "List of Super Market",
@@ -391,6 +396,7 @@
         ],
         "summary": "Add a New Super Market",
         "description": "Create a new Super Market",
+        "operationId": "add_supermarket",
         "requestBody": {
           "content": {
             "application/json": {
@@ -433,7 +439,7 @@
         ],
         "summary": "Search for Super Market By ID",
         "description": "Get a single **Super Market** by its Id value.",
-        "operationId": "getSupermarketById",
+        "operationId": "get_supermarket_by_id",
         "parameters": [
           {
             "name": "SupermarketID",
@@ -470,6 +476,7 @@
         ],
         "summary": "Update Super Market by ID",
         "description": "Update Super Market by id.",
+        "operationId": "update_supermarket",
         "parameters": [
           {
             "name": "SupermarketID",
@@ -512,7 +519,7 @@
         ],
         "summary": "Delete Super Market By ID",
         "description": "Delete a Super Market by its Id value.",
-        "operationId": "deleteSupermarket",
+        "operationId": "delete_supermarket",
         "parameters": [
           {
             "name": "SupermarketID",
@@ -544,7 +551,7 @@
         ],
         "summary": "List of All Active and Inactive Sessions Per Customer.",
         "description": "Get a list of sessions for that customer",
-        "operationId": "listSessions",
+        "operationId": "list_sessions",
         "parameters": [
           {
             "name": "CustomerID",
@@ -581,6 +588,7 @@
         ],
         "summary": "Add a New Session for a Customer",
         "description": "Scanned Items",
+        "operationId": "add_session",
         "parameters": [
           {
             "name": "CustomerID",
@@ -639,7 +647,7 @@
         ],
         "summary": "Search By SessionID & CustomerID",
         "description": "Get a single **Scanning Session** by its Id value.",
-        "operationId": "getSessionById",
+        "operationId": "get_session_by_id",
         "parameters": [
           {
             "name": "SessionID",
@@ -688,6 +696,7 @@
         ],
         "summary": "Update By SessionID & CustomerID",
         "description": "Update Scanning Session by id.",
+        "operationId": "update_session",
         "parameters": [
           {
             "name": "SessionID",
@@ -742,7 +751,7 @@
         ],
         "summary": "Delete By SessionID & CustomerID",
         "description": "Delete a Session by its Id value.",
-        "operationId": "deleteSession",
+        "operationId": "delete_session",
         "parameters": [
           {
             "name": "SessionID",
@@ -785,6 +794,7 @@
           "Scanned Item"
         ],
         "summary": "List of All the Scanned Items",
+        "operationId": "list_scanned_items",
         "parameters": [
           {
             "name": "SessionID",
@@ -832,6 +842,7 @@
           "Scanned Item"
         ],
         "summary": "Add a New Scanned Item",
+        "operationId": "add_scanned_item",
         "parameters": [
           {
             "name": "SessionID",
@@ -899,7 +910,7 @@
           "Scanned Item"
         ],
         "summary": "Search for a Scanned Item by ID",
-        "operationId": "getScannedItemByID",
+        "operationId": "get_scanned_item_by_id",
         "parameters": [
           {
             "name": "ScannedItemID",
@@ -959,6 +970,7 @@
           "Scanned Item"
         ],
         "summary": "Update a Scanned Item by ID",
+        "operationId": "update_scanned_item",
         "parameters": [
           {
             "name": "ScannedItemID",
@@ -1024,7 +1036,7 @@
           "Scanned Item"
         ],
         "summary": "Delete a Scanned Item by ID",
-        "operationId": "deleteScannedItem",
+        "operationId": "delete_scanned_item",
         "parameters": [
           {
             "name": "ScannedItemID",
