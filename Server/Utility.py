@@ -1,5 +1,6 @@
 from bson import ObjectId
 
+
 def serialize_doc(doc):
     if isinstance(doc, list):
         return [serialize_doc(subdoc) for subdoc in doc]
