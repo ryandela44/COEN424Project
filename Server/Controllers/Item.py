@@ -1,23 +1,36 @@
-# GET /v2/Item
+from Server.App import db
+from Server.Utility import serialize_doc
+from bson import ObjectId
+
+
 def get_items():
-    pass
+    items = list(db.Item.find({}))
+    return serialize_doc(items)
 
 
-# POST /v2/Item
-def add_item(item):
-    pass
+def add_item(item_data):
+    result = db.Item.insert_one(item_data)
+    item_data['_id'] = str(result.inserted_id)
+    return serialize_doc(item_data)
 
 
-# GET /v2/Item/{ItemID}
 def get_item_by_id(itemID):
-    pass
+    if not isinstance(itemID, ObjectId):
+        itemID = ObjectId(itemID)
+    item = db.Item.find_one({"ItemID": itemID})
+    return serialize_doc(item)
 
 
-# PUT /v2/Item/{ItemID}
-def update_item(itemID, item):
-    pass
+def update_item(itemID, item_data):
+    if not isinstance(itemID, ObjectId):
+        itemID = ObjectId(itemID)
+
+    db.Item.update_one({"_id": itemID}, {"$set": item_data})
+    updated_item = db.Item.find_one({"_id": itemID})
+    return serialize_doc(updated_item)
 
 
-# DELETE /v2/Item/{ItemID}
 def delete_item(itemID):
-    pass
+    if not isinstance(itemID, ObjectId):
+        itemID = ObjectId(itemID)
+    db.Item.delete_one({"ItemID": itemID})

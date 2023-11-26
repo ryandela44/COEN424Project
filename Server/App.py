@@ -1,138 +1,115 @@
 from flask import Flask, request, jsonify
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
 from Controllers.Customer import *
 from Controllers.Item import *
 from Controllers.ScanningSession import *
 from Controllers.ScannedItem import *
 from Controllers.SuperMarket import *
 
-# MongoDB setup
-uri = "mongodb+srv://amish920w:WZZXSYAlA1hBboq3@clustercheckout.zplphbp.mongodb.net/?retryWrites=true&w=majority"
-client = MongoClient(uri, server_api=ServerApi('1'))
-database = client.get_database("SmartCheckout")
-
-# Create a global variable for the database that can be imported in controller modules
-db = database
-
 app = Flask(__name__)
 
-
-# Item Endpoints
+# Item Routes
 @app.route('/v2/Item', methods=['GET'])
 def get_items_route():
-    # Call your controller function here
-    return jsonify(get_items())
-
+    return jsonify(get_items()), 200
 
 @app.route('/v2/Item', methods=['POST'])
 def add_item_route():
-    item_data = request.json
-    return jsonify(add_item(item_data)), 201
-
+    return jsonify(add_item(request.json)), 201
 
 @app.route('/v2/Item/<string:itemID>', methods=['GET', 'PUT', 'DELETE'])
 def item_operations(itemID):
     if request.method == 'GET':
-        return jsonify(get_item_by_id(itemID))
+        return jsonify(get_item_by_id(itemID)), 200
     elif request.method == 'PUT':
-        item_data = request.json
-        return jsonify(update_item(itemID, item_data)), 200
+        return jsonify(update_item(itemID, request.json)), 204
     elif request.method == 'DELETE':
-        return jsonify(delete_item(itemID)), 200
-
+        delete_item(itemID)
+        return jsonify({'message': 'Item Deleted'}), 200
 
 # Customer Routes
 @app.route('/v2/Customer', methods=['GET'])
 def list_customers_route():
-    return jsonify(list_customers())
-
+    return jsonify(list_customers()), 200
 
 @app.route('/v2/Customer', methods=['POST'])
 def add_customer_route():
-    customer = request.json
-    return jsonify(add_customer(customer)), 201
-
+    return jsonify(add_customer(request.json)), 201
 
 @app.route('/v2/Customer/<string:customerID>', methods=['GET', 'PUT', 'DELETE'])
-def customer_route(customerID):
+def customer_operations(customerID):
     if request.method == 'GET':
-        return jsonify(get_customer_by_id(customerID))
+        return jsonify(get_customer_by_id(customerID)), 200
     elif request.method == 'PUT':
-        customer_data = request.json
-        return jsonify(update_customer(customerID, customer_data)), 200
+        return jsonify(update_customer(customerID, request.json)), 204
     elif request.method == 'DELETE':
-        return jsonify(delete_customer(customerID)), 200
+        delete_customer(customerID)
+        return jsonify({'message': 'Customer Deleted'}), 200
 
-
-# Supermarket Endpoints
+# Supermarket Routes
 @app.route('/v2/Supermarket', methods=['GET'])
-def get_supermarkets():
-    return jsonify(list_supermarkets())
-
+def get_supermarkets_route():
+    return jsonify(list_supermarkets()), 200
 
 @app.route('/v2/Supermarket', methods=['POST'])
 def add_supermarket_route():
-    supermarket_data = request.json
-    return jsonify(add_supermarket(supermarket_data)), 201
-
+    print(request.json)
+    return jsonify(add_supermarket(request.json)), 201
 
 @app.route('/v2/Supermarket/<string:supermarketID>', methods=['GET', 'PUT', 'DELETE'])
 def supermarket_operations(supermarketID):
+    print(request.json)
     if request.method == 'GET':
-        return jsonify(get_supermarket_by_id(supermarketID))
+        return jsonify(get_supermarket_by_id(supermarketID)), 200
     elif request.method == 'PUT':
-        supermarket_data = request.json
-        return jsonify(update_supermarket(supermarketID, supermarket_data)), 200
+        return jsonify(update_supermarket(supermarketID, request.json)), 204
     elif request.method == 'DELETE':
-        return jsonify(delete_supermarket(supermarketID)), 200
+        delete_supermarket(supermarketID)
+        return jsonify({'message': 'Supermarket Deleted'}), 200
 
-
-# Scanning Session Endpoints
+# Scanning Session Routes
 @app.route('/v2/Customer/<string:customerID>/ScanningSession', methods=['GET'])
 def list_sessions_route(customerID):
-    return jsonify(list_sessions(customerID))
-
+    print(request.json)
+    return jsonify(list_sessions(customerID)), 200
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession', methods=['POST'])
-def start_session_route(customerID):
-    return jsonify(add_session(customerID)), 201
-
+def add_session_route(customerID):
+    print(request.json)
+    return jsonify(add_session(customerID, request.json)), 201
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>', methods=['GET', 'PUT', 'DELETE'])
 def session_operations(customerID, sessionID):
+    print(request.json)
     if request.method == 'GET':
-        return jsonify(get_session_by_id(sessionID, customerID))
+        return jsonify(get_session_by_id(sessionID, customerID)), 200
     elif request.method == 'PUT':
-        session_data = request.json
-        return jsonify(update_session(sessionID, customerID, session_data)), 200
+        return jsonify(update_session(sessionID, customerID, request.json)), 204
     elif request.method == 'DELETE':
-        return jsonify(delete_session(sessionID, customerID)), 200
+        delete_session(sessionID, customerID)
+        return jsonify({'message': 'Session Deleted'}), 200
 
-
-# Scanned Item Endpoints
+# Scanned Item Routes
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem', methods=['GET'])
 def get_scanned_items_route(customerID, sessionID):
-    return jsonify(list_scanned_items(sessionID, customerID))
-
+    print(request.json)
+    return jsonify(list_scanned_items(sessionID, customerID)), 200
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem', methods=['POST'])
 def add_scanned_item_route(customerID, sessionID):
-    scanned_item_data = request.json
-    return jsonify(add_scanned_item(sessionID, customerID, scanned_item_data)), 201
-
+    print(request.json)
+    return jsonify(add_scanned_item(sessionID, customerID, request.json)), 201
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem/<string:scannedItemID>',
            methods=['GET', 'PUT', 'DELETE'])
 def scanned_item_operations(customerID, sessionID, scannedItemID):
+    print(request.json)
     if request.method == 'GET':
-        return jsonify(get_scanned_item_by_id(scannedItemID, sessionID, customerID))
+        return jsonify(get_scanned_item_by_id(scannedItemID, sessionID, customerID)), 200
     elif request.method == 'PUT':
-        scanned_item_data = request.json
-        return jsonify(update_scanned_item(scannedItemID, sessionID, customerID, scanned_item_data)), 200
+        return jsonify(update_scanned_item(scannedItemID, sessionID, customerID, request.json)), 204
     elif request.method == 'DELETE':
-        return jsonify(delete_scanned_item(scannedItemID, sessionID, customerID)), 200
-
+        delete_scanned_item(scannedItemID, sessionID, customerID)
+        return jsonify({'message': 'Scanned Item Deleted'}), 200
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)

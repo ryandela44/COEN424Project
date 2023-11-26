@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@smartCheckout">
+  <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.49">
+    <root id="1">
+      <ServerVersion>6.0.11</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="SmartCheckout">
+      <LocalIntrospectionTimestamp>2023-11-26.02:13:14</LocalIntrospectionTimestamp>
+    </schema>
+    <schema id="3" parent="1" name="admin"/>
+    <schema id="4" parent="1" name="local"/>
+    <table id="5" parent="2" name="Customer"/>
+    <table id="6" parent="2" name="Item"/>
+    <table id="7" parent="2" name="ScannedItems"/>
+    <table id="8" parent="2" name="ScanningSession"/>
+    <table id="9" parent="2" name="Supermarket"/>
+    <column id="10" parent="5" name="_id">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="11" parent="5" name="CustomerLastName">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="12" parent="5" name="Email">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="13" parent="5" name="PhoneNumber">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="14" parent="5" name="CustomerFirstName">
+      <DasType>String|12s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="15" parent="6" name="_id">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="16" parent="6" name="ProductName">
+      <DasType>String|12s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="17" parent="6" name="UnitPrice">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="18" parent="7" name="_id">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="19" parent="7" name="ItemID">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="20" parent="7" name="Price">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="21" parent="7" name="Quantity">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="22" parent="8" name="_id">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="23" parent="8" name="CustomerID">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="24" parent="8" name="DateTime">
+      <DasType>ISODate|91s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="25" parent="8" name="ScannedItemID">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="26" parent="8" name="Status">
+      <DasType>String|12s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="27" parent="8" name="SupermarketID">
+      <DasType>Int32|4s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="28" parent="9" name="_id">
+      <DasType>Int32|4s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="29" parent="9" name="Location">
+      <DasType>Object|4999544s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="30" parent="9" name="Location.city">
+      <DasType>String|12s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="31" parent="9" name="Location.line1">
+      <DasType>String|12s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="32" parent="9" name="Location.province">
+      <DasType>String|12s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="33" parent="9" name="Location.zipCode">
+      <DasType>String|12s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="34" parent="9" name="Name">
+      <DasType>String|12s</DasType>
+      <Position>7</Position>
+    </column>
+  </database-model>
+</dataSource>
