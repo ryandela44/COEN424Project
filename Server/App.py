@@ -4,6 +4,7 @@ from Controllers.Item import *
 from Controllers.ScanningSession import *
 from Controllers.ScannedItem import *
 from Controllers.SuperMarket import *
+from Server.AIService.CustomVision import get_prediction_from_custom_vision
 
 app = Flask(__name__)
 
@@ -125,6 +126,49 @@ def scanned_item_operations(customerID, sessionID, scannedItemID):
     elif request.method == 'DELETE':
         delete_scanned_item(scannedItemID, sessionID, customerID)
         return jsonify({'message': 'Scanned Item Deleted'}), 200
+
+
+@app.route('/V2/CustomVision/scan-item', methods=['POST'])
+def scan_item():
+    customerID = request.json.get('customerID')
+    sessionID = request.json.get('sessionID')
+
+    if not sessionID:
+        # If no sessionID is provided, create a new scanning session
+        session_data = {"CustomerID": customerID}  # Add any necessary session data
+        session = add_session(customerID, session_data)
+        sessionID = session['_id']
+
+    image_url = request.json.get('image_url')
+    image_file = request.files.get('image_file')
+
+    prediction = get_prediction_from_custom_vision(image_url=image_url, image_file=image_file)
+    if not prediction or 'predictions' not in prediction:
+        return jsonify({"error": "Failed to get prediction"}), 500
+
+    # Process the prediction and add scanned items to the session
+    for pred in prediction['predictions']:
+        if pred['probability'] > 0.7:  # Threshold for probability
+            item_name = pred['tagName']
+            item = get_item_by_name(item_name)
+            if item:
+                scanned_item_data = {
+                    "SessionID": sessionID,
+                    "CustomerID": customerID,
+                    "ItemID": item['ItemId'],
+                }
+                add_scanned_item(sessionID, customerID, scanned_item_data)
+
+    # Calculate the total price for the session
+    scanned_items = list_scanned_items(sessionID, customerID)
+    total_price = sum(item['UnitPrice'] for item in scanned_items)
+
+    response = {
+        "session_id": sessionID,
+        "total_price": total_price
+    }
+
+    return jsonify(response), 200
 
 
 if __name__ == '__main__':
