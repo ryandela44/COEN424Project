@@ -10,9 +10,26 @@ def list_scanned_items(sessionID, customerID):
 
 def add_scanned_item(sessionID, customerID, scanned_item_data):
     scanned_item_data.update({"SessionID": sessionID, "CustomerID": customerID})
-    result = db.ScannedItems.insert_one(scanned_item_data)
-    scanned_item_data['_id'] = str(result.inserted_id)
-    return serialize_doc(scanned_item_data)
+
+    # Check if the item already exists
+    existing_item = db.ScannedItems.find_one({
+        "ItemID": scanned_item_data['ItemID'],
+        "SessionID": sessionID,
+        "CustomerID": customerID
+    })
+
+    if existing_item:
+        # Ensure Quantity is an integer before incrementing
+        current_quantity = int(existing_item.get('Quantity', '0'))
+        new_quantity = current_quantity + 1
+        db.ScannedItems.update_one({"_id": existing_item['_id']}, {"$set": {"Quantity": new_quantity}})
+        return serialize_doc(existing_item)
+    else:
+        # Insert a new item
+        result = db.ScannedItems.insert_one(scanned_item_data)
+        scanned_item_data['_id'] = str(result.inserted_id)
+        return serialize_doc(scanned_item_data)
+
 
 
 def get_scanned_item_by_id(scannedItemID, sessionID, customerID):

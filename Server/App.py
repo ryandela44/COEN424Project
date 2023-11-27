@@ -5,9 +5,10 @@ from Controllers.ScanningSession import *
 from Controllers.ScannedItem import *
 from Controllers.SuperMarket import *
 from Server.AIService.CustomVision import get_prediction_from_custom_vision
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 # Item Routes
 @app.route('/v2/Item', methods=['GET'])
@@ -153,16 +154,19 @@ def scan_item():
             item = get_item_by_name(item_name)
             if item:
                 scanned_item_data = {
-                    "_id": item['_id'],
                     "ItemID": item['ItemID'],
                     "Price": item['UnitPrice'],
-                    "Quantity": '1'
+                    "Quantity": 1  # Set initial quantity
                 }
                 add_scanned_item(sessionID, customerID, scanned_item_data)
 
     # Calculate the total price for the session
     scanned_items = list_scanned_items(sessionID, customerID)
-    total_price = sum(item['UnitPrice'] for item in scanned_items)
+    total_price = 0
+    for item in scanned_items:
+        price = int(item.get('Price', 0))
+        quantity = int(item.get('Quantity', 1))
+        total_price += price * quantity
 
     response = {
         "session_id": sessionID,
