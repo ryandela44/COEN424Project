@@ -148,14 +148,15 @@ def scan_item():
 
     # Process the prediction and add scanned items to the session
     for pred in prediction['predictions']:
-        if pred['probability'] > 0.7:  # Threshold for probability
+        if pred['probability'] > 0.95:  # Threshold for probability
             item_name = pred['tagName']
             item = get_item_by_name(item_name)
             if item:
                 scanned_item_data = {
-                    "SessionID": sessionID,
-                    "CustomerID": customerID,
-                    "ItemID": item['ItemId'],
+                    "_id": item['_id'],
+                    "ItemID": item['ItemID'],
+                    "Price": item['UnitPrice'],
+                    "Quantity": '1'
                 }
                 add_scanned_item(sessionID, customerID, scanned_item_data)
 

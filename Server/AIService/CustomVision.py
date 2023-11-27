@@ -3,7 +3,7 @@ import requests
 
 def get_prediction_from_custom_vision(image_url=None, image_file=None):
     headers = {
-        "Prediction-Key": "your_prediction_key_here",
+        "Prediction-Key": "0a7a65ff01ff413a9c440f07ba7e09cd",
         "Content-Type": "application/octet-stream" if image_file else "application/json"
     }
 
