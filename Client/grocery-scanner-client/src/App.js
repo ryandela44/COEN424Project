@@ -19,7 +19,7 @@ function App() {
     formData.append('image_file', image);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/V2/CustomVision/scan-item', {
+      const response = await fetch('http://127.0.0.1:5000/v2/CustomVision/scan-item', {
         method: 'POST',
         body: formData
       });

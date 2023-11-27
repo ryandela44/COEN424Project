@@ -129,7 +129,7 @@ def scanned_item_operations(customerID, sessionID, scannedItemID):
         return jsonify({'message': 'Scanned Item Deleted'}), 200
 
 
-@app.route('/V2/CustomVision/scan-item', methods=['POST'])
+@app.route('/v2/CustomVision/scan-item', methods=['POST'])
 def scan_item():
     image_url = None
     image_file = None
@@ -161,7 +161,7 @@ def scan_item():
 
     # Process the prediction and add scanned items to the session
     for pred in prediction['predictions']:
-        if pred['probability'] > 0.70:  # Threshold for probability
+        if pred['probability'] > 0.90:  # Threshold for probability
             item_name = pred['tagName']
             item = get_item_by_name(item_name)
             if item:
