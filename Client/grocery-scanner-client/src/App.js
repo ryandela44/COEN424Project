@@ -3,9 +3,9 @@ import './App.css';
 
 function App() {
   const [image, setImage] = useState(null);
-  const [customerID, setCustomerID] = useState(''); // Placeholder for customerID
-  const [sessionID, setSessionID] = useState(''); // Placeholder for sessionID
-  const [items, setItems] = useState([]);
+  const [customerID, setCustomerID] = useState('');
+  const [sessionID, setSessionID] = useState('');
+  const [scannedItems, setScannedItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const handleImageChange = (event) => {
@@ -14,22 +14,19 @@ function App() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-   formData.append('customerID', customerID);
-   formData.append('sessionID', sessionID);
-   formData.append('image_file', image);
+    formData.append('customerID', customerID);
+    formData.append('sessionID', sessionID);
+    formData.append('image_file', image);
 
     try {
       const response = await fetch('http://127.0.0.1:5000/V2/CustomVision/scan-item', {
         method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-        },
+        body: formData
       });
 
       const data = await response.json();
-      if (data && data.items) {
-        setItems(data.items);
+      if (data && data.scanned_items) {
+        setScannedItems(data.scanned_items);
         setTotalPrice(data.total_price);
       }
     } catch (error) {
@@ -57,8 +54,8 @@ function App() {
       <div>
         <h2>Scanned Items</h2>
         <ul>
-          {items.map((item, index) => (
-            <li key={index}>{item.ProductName} - ${item.Price} x {item.Quantity}</li>
+          {scannedItems.map((item, index) => (
+            <li key={index}>{item.ItemID} - ${item.Price} x {item.Quantity}</li>
           ))}
         </ul>
         <h3>Total Price: ${totalPrice}</h3>

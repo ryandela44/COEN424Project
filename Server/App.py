@@ -131,8 +131,22 @@ def scanned_item_operations(customerID, sessionID, scannedItemID):
 
 @app.route('/V2/CustomVision/scan-item', methods=['POST'])
 def scan_item():
-    customerID = request.json.get('customerID')
-    sessionID = request.json.get('sessionID')
+    image_url = None
+    image_file = None
+
+    # Check the content type of the incoming request
+    if request.content_type == 'application/json':
+        # Handle JSON data
+        customerID = request.json.get('customerID')
+        sessionID = request.json.get('sessionID')
+        image_url = request.json.get('image_url')
+    elif 'multipart/form-data' in request.content_type:
+        # Handle multipart/form-data (form data)
+        customerID = request.form.get('customerID')
+        sessionID = request.form.get('sessionID')
+        image_file = request.files.get('image_file')
+    else:
+        return jsonify({"error": "Unsupported Media Type"}), 415
 
     if not sessionID:
         # If no sessionID is provided, create a new scanning session
@@ -140,16 +154,14 @@ def scan_item():
         session = add_session(customerID, session_data)
         sessionID = session['_id']
 
-    image_url = request.json.get('image_url')
-    image_file = request.files.get('image_file')
-
+    # Call the prediction function
     prediction = get_prediction_from_custom_vision(image_url=image_url, image_file=image_file)
     if not prediction or 'predictions' not in prediction:
         return jsonify({"error": "Failed to get prediction"}), 500
 
     # Process the prediction and add scanned items to the session
     for pred in prediction['predictions']:
-        if pred['probability'] > 0.95:  # Threshold for probability
+        if pred['probability'] > 0.70:  # Threshold for probability
             item_name = pred['tagName']
             item = get_item_by_name(item_name)
             if item:
@@ -162,14 +174,11 @@ def scan_item():
 
     # Calculate the total price for the session
     scanned_items = list_scanned_items(sessionID, customerID)
-    total_price = 0
-    for item in scanned_items:
-        price = int(item.get('Price', 0))
-        quantity = int(item.get('Quantity', 1))
-        total_price += price * quantity
+    total_price = sum(int(item.get('Price', 0)) * int(item.get('Quantity', 1)) for item in scanned_items)
 
     response = {
         "session_id": sessionID,
+        "scanned_items": scanned_items,
         "total_price": total_price
     }
 
