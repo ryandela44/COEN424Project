@@ -17,7 +17,8 @@ The SmartCheckout System is a grocery checkout service that automates billing by
 - GitHub Actions
 
 ## API Endpoints
-
+<img width="173" alt="image" src="https://github.com/ryandela44/COEN424Project/assets/97757872/bd2a9954-de45-45dd-9be7-65b6723f3f6a">
+<img width="329" alt="image" src="https://github.com/ryandela44/COEN424Project/assets/97757872/5532ec9d-bef6-4705-ab84-fef59df1d4ec">
 
 ## Custom Vision Integration
 Custom vision is utilized to identify items from images. The system sends images to the Azure Custom Vision service, which returns predicted items based on the trained model.
