@@ -54,6 +54,13 @@ Scanned Item:
 - PUT  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
 - DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
 
+Scanned Item:
+- GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/
+- POST  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/
+- GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/{ScannedItemID}
+- PUT  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/{ScannedItemID}
+- DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/{ScannedItemID}
+
 ## Custom Vision Integration
 Custom vision is utilized to identify items from images. The system sends images to the Azure Custom Vision service, which returns predicted items based on the trained model.
 
