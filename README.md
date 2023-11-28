@@ -17,7 +17,7 @@ The SmartCheckout System is a grocery checkout service that automates billing by
 - GitHub Actions
 
 ## API Endpoints
-* Item:
+Item:
 - GET /v2/Item
 - POST /v2/Item
 - GET /v2/Item/{ItemID}
