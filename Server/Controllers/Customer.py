@@ -9,14 +9,11 @@ def list_customers():
 
 
 def add_customer(customer_data):
-    result = db.Customer.insert_one(customer_data)
-    customer_data['_id'] = str(result.inserted_id)
+    db.Customer.insert_one(customer_data)
     return serialize_doc(customer_data)
 
 
 def get_customer_by_id(customerID):
-    if not isinstance(customerID, ObjectId):
-        customerID = ObjectId(customerID)
     customer = db.Customer.find_one({"CustomerID": customerID})
     return serialize_doc(customer)
 

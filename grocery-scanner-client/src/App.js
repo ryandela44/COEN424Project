@@ -14,12 +14,11 @@ function App() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    formData.append('customerID', customerID);
-    formData.append('sessionID', sessionID);
     formData.append('image_file', image);
 
     try {
-      const response = await fetch('http://20.246.75.236:5000/v2/CustomVision/scan-item', {
+      // Update the URL to include customerID and sessionID in the path
+      const response = await fetch(`http://20.246.75.236:5000/v2/Customer/${customerID}/ScanningSession/${sessionID}/Scanner`, {
         method: 'POST',
         body: formData
       });

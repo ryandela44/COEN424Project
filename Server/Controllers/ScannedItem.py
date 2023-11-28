@@ -26,19 +26,12 @@ def add_scanned_item(sessionID, customerID, scanned_item_data):
         return serialize_doc(existing_item)
     else:
         # Insert a new item
-        result = db.ScannedItems.insert_one(scanned_item_data)
-        scanned_item_data['_id'] = str(result.inserted_id)
+        db.ScannedItems.insert_one(scanned_item_data)
         return serialize_doc(scanned_item_data)
 
 
 
 def get_scanned_item_by_id(scannedItemID, sessionID, customerID):
-    if not isinstance(scannedItemID, ObjectId):
-        scannedItemID = ObjectId(scannedItemID)
-    if not isinstance(sessionID, ObjectId):
-        sessionID = ObjectId(sessionID)
-    if not isinstance(customerID, ObjectId):
-        customerID = ObjectId(customerID)
     scanned_items = db.ScannedItems.find_one(
         {"ScannedItemID": scannedItemID, "SessionID": sessionID, "CustomerID": customerID})
     return serialize_doc(scanned_items)

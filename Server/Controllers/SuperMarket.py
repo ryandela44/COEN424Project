@@ -9,14 +9,11 @@ def list_supermarkets():
 
 
 def add_supermarket(supermarket_data):
-    result = db.Supermarket.insert_one(supermarket_data)
-    supermarket_data['_id'] = str(result.inserted_id)
+    db.Supermarket.insert_one(supermarket_data)
     return serialize_doc(supermarket_data)
 
 
 def get_supermarket_by_id(supermarketID):
-    if not isinstance(supermarketID, ObjectId):
-        supermarketID = ObjectId(supermarketID)
     supermarket = db.Supermarket.find_one({"SupermarketID": supermarketID})
     return serialize_doc(supermarket)
 
