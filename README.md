@@ -18,15 +18,6 @@ The SmartCheckout System is a grocery checkout service that automates billing by
 
 ## API Endpoints
 
-### Item
-- `GET /v2/Item`: List all items.
-- `POST /v2/Item`: Add a new item.
-- `GET /v2/Item/<string:itemID>`: Get item by ID.
-- `PUT /v2/Item/<string:itemID>`: Update item by ID.
-- `DELETE /v2/Item/<string:itemID>`: Delete item by ID.
-
-### Scanning and Checkout
-- `POST /v2/CustomVision/scan-item`: Scan an item and return the total price.
 
 ## Custom Vision Integration
 Custom vision is utilized to identify items from images. The system sends images to the Azure Custom Vision service, which returns predicted items based on the trained model.
