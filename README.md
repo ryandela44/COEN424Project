@@ -17,6 +17,9 @@ The SmartCheckout System is a grocery checkout service that automates billing by
 - GitHub Actions
 
 ## API Endpoints
+The URL to access your web service: 
+https://app.swaggerhub.com/apis-docs/COEN424_Raptors/SmartCheckout/v2.0 
+
 Item:
 - GET  /v2/Item
 - POST  /v2/Item
