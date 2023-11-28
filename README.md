@@ -48,13 +48,6 @@ Scanning Session:
 - DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
 
 Scanned Item:
-- GET  /v2/Customer/{CustomerID}/ScanningSession/
-- POST  /v2/Customer/{CustomerID}/ScanningSession/
-- GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
-- PUT  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
-- DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
-
-Scanned Item:
 - GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/
 - POST  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/
 - GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}/ScannedItem/{ScannedItemID}
