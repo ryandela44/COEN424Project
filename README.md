@@ -25,22 +25,34 @@ Item:
 - DELETE  /v2/Item/{ItemID}
 
 Customer:
-GET /v2/Customer
-POST /v2/Customer
-POST /v2/Customer
-GET /v2/Customer/{CustomerID}
-PUT /v2/Customer/{CustomerID}
-DELETE /v2/Customer/{CustomerID}
+- GET /v2/Customer
+- POST /v2/Customer
+- POST /v2/Customer
+- GET /v2/Customer/{CustomerID}
+- PUT /v2/Customer/{CustomerID}
+- DELETE /v2/Customer/{CustomerID}
 
 Supermarket:
-GET /v2/Supermarket
-POST /v2/Supermarket
-POST /v2/Supermarket
-GET /v2/Supermarket/{SupermarketID}
-PUT /v2/Supermarket/{SupermarketID}
-DELETE /v2/Supermarket/{SupermarketID}
+- GET /v2/Supermarket
+- POST /v2/Supermarket
+- POST /v2/Supermarket
+- GET /v2/Supermarket/{SupermarketID}
+- PUT /v2/Supermarket/{SupermarketID}
+- DELETE /v2/Supermarket/{SupermarketID}
 
 Scanning Session:
+- GET  /v2/Customer/{CustomerID}/ScanningSession/
+- POST  /v2/Customer/{CustomerID}/ScanningSession/
+- GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
+- PUT  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
+- DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
+
+Scanned Item:
+- GET  /v2/Customer/{CustomerID}/ScanningSession/
+- POST  /v2/Customer/{CustomerID}/ScanningSession/
+- GET  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
+- PUT  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
+- DELETE  /v2/Customer/{CustomerID}/ScanningSession/{SessionID}
 
 ## Custom Vision Integration
 Custom vision is utilized to identify items from images. The system sends images to the Azure Custom Vision service, which returns predicted items based on the trained model.
