@@ -9,8 +9,7 @@ def get_items():
 
 
 def add_item(item_data):
-    result = db.Item.insert_one(item_data)
-    item_data['_id'] = str(result.inserted_id)
+    db.Item.insert_one(item_data)
     return serialize_doc(item_data)
 
 
@@ -31,6 +30,4 @@ def update_item(itemID, item_data):
 
 
 def delete_item(itemID):
-    if not isinstance(itemID, ObjectId):
-        itemID = ObjectId(itemID)
     db.Item.delete_one({"ItemID": itemID})

@@ -62,13 +62,11 @@ def get_supermarkets_route():
 
 @app.route('/v2/Supermarket', methods=['POST'])
 def add_supermarket_route():
-    print(request.json)
     return jsonify(add_supermarket(request.json)), 201
 
 
 @app.route('/v2/Supermarket/<string:supermarketID>', methods=['GET', 'PUT', 'DELETE'])
 def supermarket_operations(supermarketID):
-    print(request.json)
     if request.method == 'GET':
         return jsonify(get_supermarket_by_id(supermarketID)), 200
     elif request.method == 'PUT':
@@ -81,19 +79,16 @@ def supermarket_operations(supermarketID):
 # Scanning Session Routes
 @app.route('/v2/Customer/<string:customerID>/ScanningSession', methods=['GET'])
 def list_sessions_route(customerID):
-    print(request.json)
     return jsonify(list_sessions(customerID)), 200
 
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession', methods=['POST'])
 def add_session_route(customerID):
-    print(request.json)
     return jsonify(add_session(customerID, request.json)), 201
 
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>', methods=['GET', 'PUT', 'DELETE'])
 def session_operations(customerID, sessionID):
-    print(request.json)
     if request.method == 'GET':
         return jsonify(get_session_by_id(sessionID, customerID)), 200
     elif request.method == 'PUT':
@@ -106,20 +101,17 @@ def session_operations(customerID, sessionID):
 # Scanned Item Routes
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem', methods=['GET'])
 def get_scanned_items_route(customerID, sessionID):
-    print(request.json)
     return jsonify(list_scanned_items(sessionID, customerID)), 200
 
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem', methods=['POST'])
 def add_scanned_item_route(customerID, sessionID):
-    print(request.json)
     return jsonify(add_scanned_item(sessionID, customerID, request.json)), 201
 
 
 @app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/ScannedItem/<string:scannedItemID>',
            methods=['GET', 'PUT', 'DELETE'])
 def scanned_item_operations(customerID, sessionID, scannedItemID):
-    print(request.json)
     if request.method == 'GET':
         return jsonify(get_scanned_item_by_id(scannedItemID, sessionID, customerID)), 200
     elif request.method == 'PUT':
@@ -147,12 +139,6 @@ def scan_item():
         image_file = request.files.get('image_file')
     else:
         return jsonify({"error": "Unsupported Media Type"}), 415
-
-    if not sessionID:
-        # If no sessionID is provided, create a new scanning session
-        session_data = {"CustomerID": customerID}  # Add any necessary session data
-        session = add_session(customerID, session_data)
-        sessionID = session['_id']
 
     # Call the prediction function
     prediction = get_prediction_from_custom_vision(image_url=image_url, image_file=image_file)
