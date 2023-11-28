@@ -121,21 +121,17 @@ def scanned_item_operations(customerID, sessionID, scannedItemID):
         return jsonify({'message': 'Scanned Item Deleted'}), 200
 
 
-@app.route('/v2/CustomVision/scan-item', methods=['POST'])
-def scan_item():
+@app.route('/v2/Customer/<string:customerID>/ScanningSession/<string:sessionID>/Scanner', methods=['POST'])
+def scan_item(customerID,sessionID):
     image_url = None
     image_file = None
 
     # Check the content type of the incoming request
     if request.content_type == 'application/json':
         # Handle JSON data
-        customerID = request.json.get('customerID')
-        sessionID = request.json.get('sessionID')
         image_url = request.json.get('image_url')
     elif 'multipart/form-data' in request.content_type:
         # Handle multipart/form-data (form data)
-        customerID = request.form.get('customerID')
-        sessionID = request.form.get('sessionID')
         image_file = request.files.get('image_file')
     else:
         return jsonify({"error": "Unsupported Media Type"}), 415
