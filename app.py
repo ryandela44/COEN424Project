@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
-from Controllers.Customer import *
-from Controllers.Item import *
-from Controllers.ScanningSession import *
-from Controllers.ScannedItem import *
-from Controllers.SuperMarket import *
+from Server.Controllers.Customer import *
+from Server.Controllers.Item import *
+from Server.Controllers.ScanningSession import *
+from Server.Controllers.ScannedItem import *
+from Server.Controllers.SuperMarket import *
 from Server.AIService.CustomVision import get_prediction_from_custom_vision
 from flask_cors import CORS
 

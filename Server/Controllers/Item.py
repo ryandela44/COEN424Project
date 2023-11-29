@@ -1,6 +1,5 @@
-from Server.App import db
+from Server.DataBase.db_config import db
 from Server.Utility import serialize_doc
-from bson import ObjectId
 
 
 def get_items():
